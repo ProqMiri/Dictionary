@@ -1,0 +1,19 @@
+{
+  "name": "proDictionary",
+  "main": "index.html",
+  "window": {
+    "width": 900,
+    "min_width": 900,
+    "max_width": 900,
+    "height": 560,
+    "max_height": 528,
+    "min_height": 528
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "nw-builder": "^3.4.1"
+  }
+}

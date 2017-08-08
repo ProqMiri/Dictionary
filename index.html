@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dictionary</title>
+	<link rel="stylesheet" type="text/css" href="source/style.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/datepicker-min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/jquery-confirm.min.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/datepicker-min.js"></script>
+	<script src="js/jquery-confirm.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px; " id="dictionary">
+		<div style="margin-bottom: 10px;" id="tabs">
+			<a class="btn btn-default" id="wordTab"><i class="fa fa-wordpress"></i> Words</a>
+			<a class="btn btn-default" id="expressionTab"><i class="fa fa-flask"></i> Expressions</a>
+			<a class="btn btn-default" id="sentenceTab"><i class="fa fa-paper-plane-o"></i> Sentences</a>
+			<a class="btn btn-default" id="textTab"><i class="fa fa-list"></i> Texts</a>
+		</div>
+		<div id="word">
+			<input type="text" name="search" onchange="searchWord();" class="form-control" placeholder="Search" style="margin-bottom: 10px; width: 81%; display: inline-block;">
+			<a class="btn btn-default btn-danger" onclick="searchWord();" style="margin-bottom: 3px; display: inline-block;">Search</a>
+			<div class="table-responsive" style="overflow-y: scroll; height: 432px;">    
+			  	<table class="table" id="wordTable" style="border-bottom:1px solid lightgray;">
+			  	  	<thead>
+			  	  	  	<tr>
+			  	  	  	  	<th style="width:30px;">№</th>
+			  	  	  	  	<th>Word</th>
+			  	  	  	  	<th style="width:60px;"><a onclick="addWord();" class="btn btn-xs btn-default btn-warning" style="width:100%;"><i class="fa fa-plus"></i> New word</a></th>
+			  	  	  	</tr>
+			  	  	</thead>
+			  	  	<tbody>	
+			  	  	</tbody>
+			  	</table>
+	  		</div>
+		</div>
+		<div id="expression">
+			<input type="text" name="search" onchange="searchExpression();" class="form-control" placeholder="Search" style="margin-bottom: 10px; width: 81%; display: inline-block;">
+			<a class="btn btn-default btn-danger" onclick="searchExpression();" style="margin-bottom: 3px; display: inline-block;">Search</a>
+			<div class="table-responsive" style="overflow-y: scroll; height: 432px;">    
+			  	<table class="table" id="expressionTable" style="border-bottom:1px solid lightgray;">
+			  	  	<thead>
+			  	  	  	<tr>
+			  	  	  	  	<th style="width:30px;">№</th>
+			  	  	  	  	<th>Expression</th>
+			  	  	  	  	<th style="width:60px;"><a onclick="addExpression();" class="btn btn-xs btn-default btn-warning" style="width:100%;"><i class="fa fa-plus"></i> New expression</a></th>
+			  	  	  	</tr>
+			  	  	</thead>
+			  	  	<tbody>	
+			  	  	</tbody>
+			  	</table>
+	  		</div>
+		</div>
+		<div id="sentence">
+			<input type="text" name="search" onchange="searchSentence();" class="form-control" placeholder="Search" style="margin-bottom: 10px; width: 81%; display: inline-block;">
+			<a class="btn btn-default btn-danger" onclick="searchSentence();" style="margin-bottom: 3px; display: inline-block;">Search</a>
+			<div class="table-responsive" style="overflow-y: scroll; height: 432px;">    
+			  	<table class="table" id="sentenceTable" style="border-bottom:1px solid lightgray;">
+			  	  	<thead>
+			  	  	  	<tr>
+			  	  	  	  	<th style="width:30px;">№</th>
+			  	  	  	  	<th>Sentence</th>
+			  	  	  	  	<th style="width:60px;"><a onclick="addSentences();" class="btn btn-xs btn-default btn-warning" style="width:100%;"><i class="fa fa-plus"></i> New sentence</a></th>
+			  	  	  	</tr>
+			  	  	</thead>
+			  	  	<tbody>
+			  	  	</tbody>
+			  	</table>
+	  		</div>
+		</div>
+		<div id="text">
+			<input type="text" name="search" onchange="searchText();" class="form-control" placeholder="Search" style="margin-bottom: 10px; width: 65%; display: inline-block;">
+			<a class="btn btn-default btn-danger" onclick="searchText();" style="margin-bottom: 3px; display: inline-block;">Search</a>
+			<a class="btn btn-default" onclick="examText();" style="margin-bottom: 3px; display: inline-block;">Exam</a>
+			<div class="table-responsive" style="overflow-y: scroll; height: 432px;">    
+			  	<table class="table" id="textTable" style="border-bottom:1px solid lightgray;">
+			  	  	<thead>
+			  	  	  	<tr>
+			  	  	  	  	<th style="width:30px;">№</th>
+			  	  	  	  	<th>Text</th>
+			  	  	  	  	<th style="width:60px;"><a onclick="addText();" class="btn btn-xs btn-default btn-warning" style="width:100%; margin-left:2px;"><i class="fa fa-plus"></i> New text</a></th>
+			  	  	  	</tr>
+			  	  	</thead>
+			  	  	<tbody>	
+			  	  	</tbody>
+			  	</table>
+	  		</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 col-xs-6" style="" id="multimedia" style="margin-right: 0px;">
+		<div style="margin-bottom: 10px;" id="tabs">
+			<!-- <a class="btn btn-default" id="audioTab"><i class="fa fa-volume-up"></i> Audio</a> -->
+			<a class="btn btn-default" id="videoTab"><i class="fa fa-video-camera"></i> Video</a>
+		</div>
+		<div id="audio">
+			<input type="text" name="search" onchange="searchAudio();" class="form-control" placeholder="Search" style="margin-bottom: 10px; width: 81%; display: inline-block;">
+			<a class="btn btn-default btn-warning" onclick="searchAudio();" style="margin-bottom: 3px; display: inline-block;">Search</a>
+			<div class="table-responsive" style="overflow-y: scroll; height: 432px;">    
+			  	<table class="table" id="audioTable" style="border-bottom:1px solid lightgray;">
+			  	  	<thead>
+			  	  	  	<tr>
+			  	  	  	  	<th style="width:30px;">№</th>
+			  	  	  	  	<th>Audio</th>
+			  	  	  	  	<th style="width:60px;"><a onclick="addAudio();" class="btn btn-xs btn-default btn-success" style="width:100%;"><i class="fa fa-plus"></i> New audio</a></th>
+			  	  	  	</tr>
+			  	  	</thead>
+			  	  	<tbody>	
+			  	  	</tbody>
+			  	</table>
+	  		</div>
+		</div>
+		<div id="video">
+			<input type="text" name="search" onchange="searchVideo();" class="form-control" placeholder="Search" style="margin-bottom: 10px; width: 81%; display: inline-block;">
+			<a class="btn btn-default btn-warning" onclick="searchVideo();" style="margin-bottom: 3px; display: inline-block;">Search</a>
+			<div class="table-responsive" style="overflow-y: scroll; height: 432px;">    
+			  	<table class="table" id="videoTable" style="border-bottom:1px solid lightgray;">
+			  	  	<thead>
+			  	  	  	<tr>
+			  	  	  	  	<th style="width:30px;">№</th>
+			  	  	  	  	<th>Video</th>
+			  	  	  	  	<th style="width:60px;"><a onclick="addVideo();" class="btn btn-xs btn-default btn-success" style="width:100%;"><i class="fa fa-plus"></i> New video</a></th>
+			  	  	  	</tr>
+			  	  	</thead>
+			  	  	<tbody>	
+			  	  	</tbody>
+			  	</table>
+	  		</div>
+		</div>
+	</div>
+	<div style="padding-right: 0px; position: absolute; top: 10px; right: 10px;" id="menu">
+		<a class="btn btn-default btn-outline" id="setting"><i class="fa fa-cogs"></i></a>
+		<!-- <a class="btn btn-default btn-outline" id="about"><i class="fa fa-yelp"></i></a> -->
+	</div>
+	<script type="text/javascript" src="source/common.js"></script>
+	<script type="text/javascript" src="source/word.js"></script>
+	<script type="text/javascript" src="source/expression.js"></script>
+	<script type="text/javascript" src="source/sentence.js"></script>
+	<script type="text/javascript" src="source/text.js"></script>
+	<script type="text/javascript" src="source/video.js"></script>
+</body>
+</html>

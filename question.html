@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Question</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="container" style="margin-top: 10px;">
+		<span id="question" style="font-size: 15px; font-style: italic; max-width: 330px;"></span>
+		<input type="text" class="form-control" onchange="$('.container .btn-success').click();" id="translate" placeholder="Translate" style="margin-top: 8px;">
+		<a class="btn btn-default btn-danger" style="float: right; margin-top: 10px; margin-left: 8px;">Close</a> 
+		<a class="btn btn-default btn-success" style="float: right; margin-top: 10px;">Approve</a>
+	</div>
+	<script type="text/javascript">
+		var current = [];
+		var fs = require('fs');
+		$(document).ready(function(){
+			$('input#translate').focus();
+			var data = JSON.parse(fs.readFileSync('source/setting.txt','utf8'));
+			var startDate = data.startDate.toString().trim();
+			var endDate = data.endDate.toString().trim();
+			var typeOfQuestion = data.typeOfQuestion.toString().trim();
+			data = JSON.parse(fs.readFileSync('translate/'+typeOfQuestion+'s.txt','utf8'));
+			var win = nw.Window.get();
+			var dataNew = [];
+			if(startDate != '' && endDate != '')
+			{
+				data.forEach(function(item, key){
+					if(startDate.localeCompare(item[2]) != 1 && item[2].localeCompare(endDate) != 1)
+					{
+						dataNew.push(item);
+					}
+				});
+			}
+			else
+			{
+				dataNew = data;
+			}
+			var dataLength = dataNew.length;
+			if(dataLength == 0)
+			{
+				win.close();
+			}
+			else
+			{
+				var randomIndex = Math.floor(Math.random()*dataLength);
+				current = dataNew[randomIndex];
+			}
+			$('#question').text(current[0]);
+			$('.container .btn-danger').click(function(){
+				win.close();
+			});
+			$('.container .btn-success').click(function(){
+				var translate = $('#translate').val().trim().toLowerCase();
+				translates = [];
+				current[1].forEach(function(item, key){
+					translates.push(item.toString().trim().toLowerCase());
+				});
+				if(translate == '')
+				{
+					$.alert('Please, write something!');
+					return;
+				}
+				if(translates.indexOf(translate) == -1)
+				{
+					$('#translate').css('border','1.5px dotted red');
+				}
+				else
+				{ 
+					win.close();
+				}
+			});
+		});
+	</script>
+</body>
+</html>

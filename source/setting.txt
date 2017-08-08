@@ -1,0 +1,1 @@
+{"startDate":"","endDate":"","typeOfQuestion":"word","repeatType":"second","timer":"10"}

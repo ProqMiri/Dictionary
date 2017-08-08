@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Exam text</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/jquery.min.js"></script>
+</head>
+<body>
+	<div style="margin: 10px;">
+		<h3 align="center" id="textName"></h3>
+		<p align="center" id="textContent"></p>
+		<hr>
+		<div id="inputs" style="margin-bottom: 10px;"></div>
+		<a class="btn btn-default btn-danger" style="float: right; margin-left: 8px; margin-right:4px; ">Close</a> 
+		<a class="btn btn-default btn-success" style="float: right;">Approve</a>
+	</div>
+	<script type="text/javascript">
+		var fs = require('fs');
+		var id = location.href.split('id=');
+		id = parseInt(id[1]);
+		var data = JSON.parse(fs.readFileSync('translate/texts.txt','utf8'));
+		if(id == -1)
+		{
+			id = Math.floor(Math.random()*data.length);
+		}
+		data = data[id];
+		dataContent = JSON.parse(fs.readFileSync('translate/text/'+data[1].toString().trim()+'.txt','utf8'));
+		var contentLength = dataContent.length;
+		var randomCount = parseInt(contentLength/2);
+		var randomIndex = [];
+		console.log(contentLength);
+		for(var i = 1; i <= randomCount;)
+		{
+			var item = Math.floor(Math.random()*contentLength);
+			if(randomIndex.indexOf(item) == -1)
+			{
+				randomIndex.push(item);
+				i++;
+			}
+		}
+		randomIndex.sort();
+		var text = "";
+		var inputs = "";
+		var  i = 0;
+		dataContent.forEach(function(item, key){
+			if(randomIndex.indexOf(key) == -1)
+			{
+				text += item.toString().trim()+". ";
+			}
+			else
+			{
+				text += " ("+(++i)+")........ . ";
+				inputs += "<div id='"+key+"' style='margin:5px 0px;'><span style='display:inline-block; font-size:18px; font-style:italic;'>"+i+")</span> <input style='display:inline-block;width:95%;' type='text' class='form-control' placeholder='expression "+i+"'></div>";
+			}
+		});
+		$('#textName').text(data[0]);
+		$('#textContent').text(text);
+		$('#inputs').html(inputs);
+		$('.btn-danger').click(function(){
+			nw.Window.get().close();
+		});
+		$('.btn-success').click(function(){
+			var close = true;
+			var i = 0;
+			$('#inputs>div').each(function(item, key){
+				var input = $(this).find('input');
+				var id = parseInt($(this).attr('id'));
+				if(input.val().trim() == dataContent[id] || input.val().trim() == dataContent[id]+".")
+				{
+					input.css('border','1.5px dotted green');
+				}
+				else
+				{
+					input.css('border','1.5px dotted red');
+					close = false;
+				}
+			});
+			if(close)
+			{
+				nw.Window.get().close();
+			}
+		});
+	</script>
+</body>
+</html>
